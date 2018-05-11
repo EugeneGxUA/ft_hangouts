@@ -29,7 +29,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
-				android:gravity="center_vertical"
+				android:gravity="center_horizontal"
 				android:clipToPadding="false"
 				android:clipChildren="false"
 				android:layout_marginTop="10dp"
@@ -42,104 +42,37 @@
 					android:src="@mipmap/round_face_black_48"
 				/>
 
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="vertical"
-					android:layout_marginLeft="30dp"
-					>
-
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="First name"
-						android:layout_marginLeft="10dp"/>
-
-					<EditText
-						android:id="@+id/first_name"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:background="@drawable/edittext_field"
-						android:padding="10dp"
-						android:elevation="2dp"
-						/>
-
-				</LinearLayout>
-
 			</LinearLayout>
 
-			<TextView
-				android:text="Last name"
+
+			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+				android:id="@+id/first_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:layout_marginLeft="5dp"
 				/>
 
-			<EditText
+			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
 				android:id="@+id/last_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:background="@drawable/edittext_field"
-				android:padding="10dp"
-				android:elevation="2dp"
 				/>
-
-
-			<TextView
-				android:text="Phone number"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:layout_marginLeft="5dp"
-				/>
-
-			<EditText
+			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
 				android:id="@+id/phone_number"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:inputType="phone"
-				android:background="@drawable/edittext_field"
-				android:padding="10dp"
-				android:elevation="2dp"
 				/>
-
-			<TextView
-				android:text="E-mail"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:layout_marginLeft="5dp"
-				/>
-
-			<EditText
+			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
 				android:id="@+id/email"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:inputType="textEmailAddress"
-				android:background="@drawable/edittext_field"
-				android:padding="10dp"
-				android:elevation="2dp"
 				/>
-
-			<TextView
-				android:text="Company name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:layout_marginLeft="5dp"
-				/>
-
-			<EditText
+			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
 				android:id="@+id/company_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:inputType="textEmailAddress"
-				android:background="@drawable/edittext_field"
-				android:padding="10dp"
-				android:elevation="2dp"
-				android:layout_marginBottom="5dp"
+
 				/>
+
 
 		</LinearLayout>
 

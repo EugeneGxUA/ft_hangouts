@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.d2_eugene.ft_hangouts.R;
+import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
+import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
 
 public class ProfileActivity extends Activity {
 
@@ -17,17 +21,47 @@ public class ProfileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 
-		final ImageView profilePhotoView = findViewById(R.id.profile_image);
+		final ImageView profilePhotoView = findViewById(R.id.profile_image); {
 
-		final EditText fistNameField = findViewById(R.id.first_name);
+		}
 
-		final EditText lastNameField = findViewById(R.id.last_name);
+		final FloatingLabelField fistNameField = findViewById(R.id.first_name); {
+			fistNameField.setHintText("First name");
+			fistNameField.setInputType(InputType.TYPE_CLASS_TEXT);
+		}
 
-		final EditText phoneNumberField = findViewById(R.id.phone_number);
+		final FloatingLabelField lastNameField = findViewById(R.id.last_name); {
+			lastNameField.setHintText("Last name");
+			lastNameField.setInputType(InputType.TYPE_CLASS_TEXT);
+		}
 
-		final EditText emailField = findViewById(R.id.email);
+		final FloatingLabelField phoneNumberField = findViewById(R.id.phone_number); {
+			phoneNumberField.setHintText("Phone number");
+			phoneNumberField.setInputType(InputType.TYPE_CLASS_PHONE);
 
-		final EditText companyNameField = findViewById(R.id.company_name);
+			phoneNumberField.addValueChangeListener(new ValueChangedListener() {
+				@Override
+				public void onValueChanged(String oldValue, String value) {
+					//TODO -> make listeners
+				}
+			});
+		}
+
+		final FloatingLabelField emailField = findViewById(R.id.email); {
+			emailField.setHintText("E-mail");
+			emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		}
+
+		final FloatingLabelField companyNameField = findViewById(R.id.company_name); {
+			companyNameField.setHintText("Company");
+		}
+
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 
 	public static void start(Context context) {

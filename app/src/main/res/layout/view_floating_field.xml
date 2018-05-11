@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+
+		>
+
+		<TextView
+			android:id="@+id/hint_text_view"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Test text"
+			android:textSize="20sp"
+			android:paddingTop="25dp"
+			android:transformPivotY="-40dp"
+			android:transformPivotX="0dp"
+			android:paddingLeft="10dp"
+			/>
+
+		<EditText
+			android:id="@+id/text_field"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="20sp"
+			android:paddingTop="25dp"
+			android:background="@null"
+			android:paddingLeft="10dp"
+			android:inputType="textNoSuggestions"
+			/>
+	</FrameLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="2dp"
+		android:layout_gravity="bottom"
+		android:background="#d3d3d3"
+		/>
+</LinearLayout>
