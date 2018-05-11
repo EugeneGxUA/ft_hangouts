@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.d2_eugene.ft_hangouts.R;
-import com.example.d2_eugene.ft_hangouts.ui.fragment.ProfileFragment;
-import com.example.d2_eugene.ft_hangouts.util.FragmentApp;
+import com.example.d2_eugene.ft_hangouts.ui.fragment.ProfileActivity;
 
 public class MainActivity extends Activity {
 
@@ -36,12 +35,7 @@ public class MainActivity extends Activity {
 
 		final View addButton = findViewById(R.id.add_button); {
 			addButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				final FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-				transaction.addToBackStack(null);
-				transaction.replace(R.id.fragment_container, new ProfileFragment());
-				transaction.commit();
-
+				ProfileActivity.start(MainActivity.this);
 			} });
 		}
 
