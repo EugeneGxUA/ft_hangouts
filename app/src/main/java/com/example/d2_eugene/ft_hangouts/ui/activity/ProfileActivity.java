@@ -1,18 +1,19 @@
-package com.example.d2_eugene.ft_hangouts.ui.fragment;
+package com.example.d2_eugene.ft_hangouts.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
 import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
+
+import java.util.Locale;
 
 public class ProfileActivity extends Activity {
 
@@ -42,10 +43,12 @@ public class ProfileActivity extends Activity {
 			phoneNumberField.addValueChangeListener(new ValueChangedListener() {
 				@Override
 				public void onValueChanged(String oldValue, String value) {
-					//TODO -> make listeners
+
+					if (value.length() > 13) phoneNumberField.setText(oldValue);
 				}
 			});
 		}
+		//TODO VALIDATION
 
 		final FloatingLabelField emailField = findViewById(R.id.email); {
 			emailField.setHintText("E-mail");
@@ -54,6 +57,10 @@ public class ProfileActivity extends Activity {
 
 		final FloatingLabelField companyNameField = findViewById(R.id.company_name); {
 			companyNameField.setHintText("Company");
+		}
+
+		final ImageView applyButton = findViewById(R.id.apply_button); {
+
 		}
 
 

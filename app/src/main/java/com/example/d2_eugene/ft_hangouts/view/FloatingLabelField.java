@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -64,7 +65,10 @@ public class FloatingLabelField extends FrameLayout {
 						animator.setDuration(256);
 						animator.start();
 					}
-					oldValue = value;
+
+					final String oldValue = FloatingLabelField.this.oldValue;
+
+					FloatingLabelField.this.oldValue = value;
 
 					for (ValueChangedListener valueChangedListener : valueChangedListeners) {
 						valueChangedListener.onValueChanged(oldValue, value);
@@ -75,6 +79,19 @@ public class FloatingLabelField extends FrameLayout {
 
 		addView(rootView);
 
+	}
+
+	public void setErrorState(boolean errorState) {
+		if (errorState) {
+			hintTextView.setTextColor(Color.RED);
+			return;
+		}
+
+		hintTextView.setTextColor(getResources().getColor(R.color.black));
+	}
+
+	public void setText(String text) {
+		textField.setText(text);
 	}
 
 	public void setHintText(String hintText) {

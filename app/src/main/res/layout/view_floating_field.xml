@@ -22,6 +22,7 @@
 			android:transformPivotY="-40dp"
 			android:transformPivotX="0dp"
 			android:paddingLeft="10dp"
+			android:textColor="#000000"
 			/>
 
 		<EditText
@@ -32,6 +33,7 @@
 			android:paddingTop="25dp"
 			android:background="@null"
 			android:paddingLeft="10dp"
+			android:lines="1"
 			android:inputType="textNoSuggestions"
 			/>
 	</FrameLayout>

@@ -37,9 +37,10 @@
 
 				<ImageView
 					android:id="@+id/profile_image"
-					android:layout_width="100dp"
-					android:layout_height="100dp"
+					android:layout_width="80dp"
+					android:layout_height="80dp"
 					android:src="@mipmap/round_face_black_48"
+					android:scaleType="fitXY"
 				/>
 
 			</LinearLayout>
@@ -70,13 +71,22 @@
 				android:id="@+id/company_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-
 				/>
-
-
 		</LinearLayout>
-
-
 	</ScrollView>
+
+	<ImageView
+		android:id="@+id/apply_button"
+		android:layout_width="56dp"
+		android:layout_height="56dp"
+		android:src="@mipmap/baseline_done_black_24"
+		android:background="@drawable/round_button"
+		android:layout_gravity="right|bottom"
+		android:layout_margin="16dp"
+		android:elevation="6dp"
+		android:scaleType="center"
+		android:clickable="true"
+		android:focusable="true"
+		/>
 
 </LinearLayout>

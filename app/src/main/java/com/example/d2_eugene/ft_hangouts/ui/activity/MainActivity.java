@@ -2,13 +2,11 @@ package com.example.d2_eugene.ft_hangouts.ui.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.d2_eugene.ft_hangouts.R;
-import com.example.d2_eugene.ft_hangouts.ui.fragment.ProfileActivity;
 
 public class MainActivity extends Activity {
 
