@@ -7,12 +7,20 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
+import com.example.d2_eugene.ft_hangouts.ThisApp;
+import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
 import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Locale;
 
 public class ProfileActivity extends Activity {
@@ -59,8 +67,34 @@ public class ProfileActivity extends Activity {
 			companyNameField.setHintText("Company");
 		}
 
-		final ImageView applyButton = findViewById(R.id.apply_button); {
+		final TextView saveButton = findViewById(R.id.save_button); {
+			saveButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+				try {
+					final Profile profile = new Profile(
+						fistNameField.getValue(),
+						lastNameField.getValue(),
+						phoneNumberField.getValue(),
+						emailField.getValue(),
+						companyNameField.getValue(),
+						ProfileActivity.this
+					);
 
+					JSONObject profileObject = new JSONObject();
+					profileObject.put("userId", profile.getId());
+					profileObject.put("firstName", profile.firstName);
+					profileObject.put("lastName", profile.lastName);
+					profileObject.put("phoneNumber", profile.phone);
+					profileObject.put("companyName", profile.companyName);
+					profileObject.put("email", profile.email);
+
+					ThisApp.saveProfile(ProfileActivity.this, profileObject);
+					finish();
+				} catch (JSONException | IOException e) {
+					throw new RuntimeException(e);
+				}
+
+
+			} });
 		}
 
 
