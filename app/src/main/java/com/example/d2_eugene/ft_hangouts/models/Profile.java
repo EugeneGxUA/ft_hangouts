@@ -3,8 +3,12 @@ package com.example.d2_eugene.ft_hangouts.models;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.d2_eugene.ft_hangouts.anotation.Nullable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Profile {
 
@@ -37,8 +41,34 @@ public class Profile {
 
 	}
 
-	public int getId() {
-		return this.id;
+	public Profile(JSONObject user) {
+
+		try {
+			this.id = user.getInt("userId");
+			this.firstName = user.getString("firstName");
+			this.lastName = user.getString("lastName");
+			this.phone = user.getString("phoneNumber");
+			this.email = user.getString("email");
+			this.companyName = user.getString("companyName");
+		}catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
+	public JSONObject toJson() {
+		JSONObject user = new JSONObject();
+
+		try {
+			user.put("userId", id);
+			user.put("firstName", firstName);
+			user.put("lastName", lastName);
+			user.put("phoneNumber", phone);
+			user.put("companyName", companyName);
+			user.put("email", email);
+
+			return user;
+		} catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

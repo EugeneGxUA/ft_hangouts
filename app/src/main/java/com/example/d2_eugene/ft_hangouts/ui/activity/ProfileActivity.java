@@ -79,15 +79,7 @@ public class ProfileActivity extends Activity {
 						ProfileActivity.this
 					);
 
-					JSONObject profileObject = new JSONObject();
-					profileObject.put("userId", profile.getId());
-					profileObject.put("firstName", profile.firstName);
-					profileObject.put("lastName", profile.lastName);
-					profileObject.put("phoneNumber", profile.phone);
-					profileObject.put("companyName", profile.companyName);
-					profileObject.put("email", profile.email);
-
-					ThisApp.saveProfile(ProfileActivity.this, profileObject);
+					ThisApp.saveProfile(ProfileActivity.this, profile.toJson());
 					finish();
 				} catch (JSONException | IOException e) {
 					throw new RuntimeException(e);
