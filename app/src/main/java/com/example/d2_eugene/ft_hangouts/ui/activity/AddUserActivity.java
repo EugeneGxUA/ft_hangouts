@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +16,10 @@ import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
 import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Locale;
 
-public class ProfileActivity extends Activity {
+public class AddUserActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,16 +72,14 @@ public class ProfileActivity extends Activity {
 						phoneNumberField.getValue(),
 						emailField.getValue(),
 						companyNameField.getValue(),
-						ProfileActivity.this
+						AddUserActivity.this
 					);
 
-					ThisApp.saveProfile(ProfileActivity.this, profile.toJson());
+					ThisApp.saveProfile(AddUserActivity.this, profile.toJson());
 					finish();
 				} catch (JSONException | IOException e) {
 					throw new RuntimeException(e);
 				}
-
-
 			} });
 		}
 
@@ -98,7 +92,7 @@ public class ProfileActivity extends Activity {
 	}
 
 	public static void start(Context context) {
-		Intent intent = new Intent(context, ProfileActivity.class);
+		Intent intent = new Intent(context, AddUserActivity.class);
 
 		//TODO -> some extra in INTENT
 

@@ -1,46 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
+	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	>
 
-	<ImageView
-		android:id="@+id/user_avatar"
-		android:layout_width="40dp"
-		android:layout_height="40dp"
-		android:layout_margin="10dp"
-		/>
 
 	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
+		android:id="@+id/user_button"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginBottom="5dp"
 		>
 
-		<TextView
-			android:id="@+id/user_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#000"
-			android:layout_marginTop="10dp"
+		<ImageView
+			android:id="@+id/user_avatar"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:layout_margin="10dp"
+			android:src="@mipmap/round_face_black_48"
 			/>
 
-		<TextView
-			android:id="@+id/user_lastName"
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="5dp"
-			android:textColor="#000"
-			/>
+			android:orientation="vertical"
+			android:layout_marginRight="10dp"
+			>
 
+			<TextView
+				android:id="@+id/user_name"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#000"
+				android:layout_marginTop="10dp"
+				android:lines="1"
+				/>
+
+			<TextView
+				android:id="@+id/user_lastName"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:textColor="#000"
+				android:lines="1"
+				/>
+		</LinearLayout>
 	</LinearLayout>
 
-
-
-
-
-
-
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="2dp"
+		android:background="#f8f8f8"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		/>
 </LinearLayout>

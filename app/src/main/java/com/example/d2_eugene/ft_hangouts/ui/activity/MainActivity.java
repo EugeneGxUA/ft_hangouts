@@ -1,7 +1,6 @@
 package com.example.d2_eugene.ft_hangouts.ui.activity;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ public class MainActivity extends Activity {
 
 		final View addButton = findViewById(R.id.add_button); {
 			addButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				ProfileActivity.start(MainActivity.this);
+				AddUserActivity.start(MainActivity.this);
 			} });
 		}
 
