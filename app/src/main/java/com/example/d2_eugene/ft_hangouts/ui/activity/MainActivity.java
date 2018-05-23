@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 
 		final View addButton = findViewById(R.id.add_button); {
 			addButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				AddUserActivity.start(MainActivity.this);
+				AddUserActivity.start(MainActivity.this, null);
 			} });
 		}
 

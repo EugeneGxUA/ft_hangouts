@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.provider.Telephony;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.models.Profile;
@@ -15,10 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class ThisApp extends Application{
@@ -52,8 +55,6 @@ public class ThisApp extends Application{
 	}
 
 	public static Profile[] readProfiles(Context context) throws JSONException, IOException {
-		JSONArray allUsers = new JSONArray();
-
 		File folder = context.getFilesDir();
 		File[] files = folder.listFiles();
 
@@ -76,6 +77,23 @@ public class ThisApp extends Application{
 		}
 
 		return users;
+	}
+
+	public static void editProfile(Context context, JSONObject newProfile) throws JSONException, IOException {
+		final File folder = context.getFilesDir();
+		final File file = new File(folder, newProfile.getString("userId"));
+
+		if (!file.exists()) {
+			// TODO: 23.05.18
+			throw new RuntimeException();
+		}
+
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			writer.write(newProfile.toString());
+
+			Log.d("CHECK_FILE", "editProfile: " + file.getName());
+			Log.d("CHECK_FILE", "editProfile: " + newProfile.toString());
+		}
 	}
 
 

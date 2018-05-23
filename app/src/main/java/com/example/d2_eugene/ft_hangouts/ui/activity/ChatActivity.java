@@ -13,10 +13,12 @@ import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.anotation.NotNull;
@@ -45,11 +47,17 @@ public class ChatActivity extends Activity {
 				String permission = permissions[i];
 				int requestResult = grantResults[i];
 
-				if (permission.equals(Manifest.permission.READ_SMS) || permission.equals(Manifest.permission.READ_SMS))  {
+				if (permission.equals(Manifest.permission.READ_SMS))  {
 					if (requestResult == PackageManager.PERMISSION_GRANTED) {
 						fillContainer();
 					} else {
 						onBackPressed();
+					}
+				} else if (permission.equals(Manifest.permission.SEND_SMS)) {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+						//TODO -> make send sms method()
+					} else {
+						Toast.makeText(this, "Need permission", Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
@@ -83,7 +91,10 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView editButton = findViewById(R.id.edit_button); {
-
+			editButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+				//todo - return new profile if edit
+				AddUserActivity.start(ChatActivity.this, profile);
+			} });
 		}
 
 		messageContainer = findViewById(R.id.content_container); {
@@ -109,15 +120,12 @@ public class ChatActivity extends Activity {
 		}
 	}
 
-
 	private ArrayList<SmsMessage> fetchSmsInbox() {
 		ArrayList<SmsMessage> smsMessages = new ArrayList<SmsMessage>();
 
-
 		Uri smsInboxUri = Uri.parse("content://sms/");
-		Cursor cursor = getContentResolver().query(smsInboxUri, new String[]{"_id", "address", "date", "body", "type"}, null, null, null);
 
-		try {
+		try ( Cursor cursor = getContentResolver().query(smsInboxUri, new String[]{"_id", "address", "date", "body", "type"}, null, null, null) ){
 			if (cursor == null) throw new RuntimeException();
 
 			if (cursor.moveToFirst()) {
@@ -132,13 +140,13 @@ public class ChatActivity extends Activity {
 						String date = cursor.getString(2);
 						String body = cursor.getString(3);
 
-						String from = "";
-						if (Integer.parseInt(type) == Telephony.Sms.MESSAGE_TYPE_SENT) {
-							from = "Me :";
-						} else {
-							from = "He :";
+						final String from; {
+							if (Integer.parseInt(type) == Telephony.Sms.MESSAGE_TYPE_SENT) {
+								from = "Me :";
+							} else {
+								from = "He :";
+							}
 						}
-
 						smsMessages.add(new SmsMessage(from, body, date));
 					}
 
@@ -148,10 +156,7 @@ public class ChatActivity extends Activity {
 			}
 		} catch (Throwable e) {
 			Log.e("CHECK_SMS", "fetchSmsInbox: ", e);
-		} finally {
-			cursor.close();
 		}
-		cursor.close();
 		return smsMessages;
 	}
 

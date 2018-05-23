@@ -11,24 +11,38 @@ import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.ThisApp;
+import com.example.d2_eugene.ft_hangouts.anotation.Nullable;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
 import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 public class AddUserActivity extends Activity {
+
+	@Nullable private Profile profile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 
-		final ImageView profilePhotoView = findViewById(R.id.profile_image); {
+		final TextView saveButton = findViewById(R.id.save_button);
 
+		final String profileExtra = getIntent().getStringExtra("profile");
+		if (profileExtra != null) {
+			try {
+				profile = new Profile(new JSONObject(profileExtra));
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			profile = null;
 		}
+
 
 		final FloatingLabelField fistNameField = findViewById(R.id.first_name); {
 			fistNameField.setHintText("First name");
@@ -63,27 +77,50 @@ public class AddUserActivity extends Activity {
 			companyNameField.setHintText("Company");
 		}
 
-		final TextView saveButton = findViewById(R.id.save_button); {
+		if (profile != null) {
+			fistNameField.setText(profile.firstName);
+			lastNameField.setText(profile.lastName);
+			phoneNumberField.setText(profile.phone);
+			emailField.setText(profile.email);
+			companyNameField.setText(profile.companyName);
+
 			saveButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 				try {
-					final Profile profile = new Profile(
-						fistNameField.getValue(),
-						lastNameField.getValue(),
-						phoneNumberField.getValue(),
-						emailField.getValue(),
-						companyNameField.getValue(),
-						AddUserActivity.this
-					);
 
-					ThisApp.saveProfile(AddUserActivity.this, profile.toJson());
+					profile.firstName = fistNameField.getValue();
+					profile.lastName = lastNameField.getValue();
+					profile.phone = phoneNumberField.getValue();
+					profile.email = emailField.getValue();
+					profile.companyName = companyNameField.getValue();
+
+					ThisApp.editProfile(AddUserActivity.this, profile.toJson());
 					finish();
 				} catch (JSONException | IOException e) {
 					throw new RuntimeException(e);
 				}
 			} });
+		} else {
+			saveButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try {
+						final Profile profile = new Profile(
+							fistNameField.getValue(),
+							lastNameField.getValue(),
+							phoneNumberField.getValue(),
+							emailField.getValue(),
+							companyNameField.getValue(),
+							AddUserActivity.this
+						);
+
+						ThisApp.saveProfile(AddUserActivity.this, profile.toJson());
+						finish();
+					} catch (JSONException | IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			});
 		}
-
-
 	}
 
 	@Override
@@ -91,11 +128,10 @@ public class AddUserActivity extends Activity {
 		finish();
 	}
 
-	public static void start(Context context) {
+	public static void start(Context context, @Nullable Profile profile) {
 		Intent intent = new Intent(context, AddUserActivity.class);
 
-		//TODO -> some extra in INTENT
-
+		if (profile != null) intent.putExtra("profile", profile.toJson().toString());
 		context.startActivity(intent);
 
 	}
