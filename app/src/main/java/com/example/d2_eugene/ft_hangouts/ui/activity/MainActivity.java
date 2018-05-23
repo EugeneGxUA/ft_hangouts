@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.ThisApp;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
-import com.example.d2_eugene.ft_hangouts.ui.item.UserProfileShortView;
+import com.example.d2_eugene.ft_hangouts.ui.model.UserProfileShortView;
 
 import org.json.JSONException;
 
@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 			contentContainer.removeAllViews();
 			for (Profile profile : allUsers) {
 
-				contentContainer.addView(new UserProfileShortView(profile.firstName, profile.lastName).onCreate(inflater, contentContainer, MainActivity.this));
+				contentContainer.addView(new UserProfileShortView(profile).onCreate(inflater, contentContainer, MainActivity.this));
 
 			}
 

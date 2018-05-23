@@ -1,22 +1,60 @@
 package com.example.d2_eugene.ft_hangouts.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
+import android.telephony.SmsManager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.anotation.NotNull;
+import com.example.d2_eugene.ft_hangouts.models.Profile;
+import com.example.d2_eugene.ft_hangouts.ui.model.SmsMessage;
+import com.example.d2_eugene.ft_hangouts.view.SmsMessageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class ChatActivity extends Activity {
 
-	private String firstName;
-	private String lastName;
+	private Profile profile;
+	private ViewGroup messageContainer;
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		if (requestCode == 1) {
+			for (int i = 0; i < permissions.length; i++) {
+				String permission = permissions[i];
+				int requestResult = grantResults[i];
+
+				if (permission.equals(Manifest.permission.READ_SMS) || permission.equals(Manifest.permission.READ_SMS))  {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+						fillContainer();
+					} else {
+						onBackPressed();
+					}
+				}
+			}
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +62,11 @@ public class ChatActivity extends Activity {
 		setContentView(R.layout.activity_chat);
 
 		final Intent intent = getIntent();
-		firstName = intent.getStringExtra("firstName");
-		lastName = intent.getStringExtra("lastName");
+		try {
+			profile = new Profile(new JSONObject(intent.getStringExtra("profile")));
+		} catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 
 		final ViewGroup profileButton = findViewById(R.id.user_profile_button); {
 
@@ -37,7 +78,7 @@ public class ChatActivity extends Activity {
 		}
 
 		final TextView userFullName = findViewById(R.id.user_full_name); {
-			final String fullName = firstName + " " + lastName;
+			final String fullName = profile.firstName + " " + profile.lastName;
 			userFullName.setText(fullName);
 		}
 
@@ -45,8 +86,16 @@ public class ChatActivity extends Activity {
 
 		}
 
-		final ViewGroup messageContainer = findViewById(R.id.content_container); {
-
+		messageContainer = findViewById(R.id.content_container); {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+					requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 1);
+				} else {
+					fillContainer();
+				}
+			} else {
+				fillContainer();
+			}
 		}
 
 		final EditText messageField = findViewById(R.id.message_field); {
@@ -54,7 +103,65 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView sendButton = findViewById(R.id.send_button); {
+			final String msg = messageField.getText().toString();
 
+
+		}
+	}
+
+
+	private ArrayList<SmsMessage> fetchSmsInbox() {
+		ArrayList<SmsMessage> smsMessages = new ArrayList<SmsMessage>();
+
+
+		Uri smsInboxUri = Uri.parse("content://sms/");
+		Cursor cursor = getContentResolver().query(smsInboxUri, new String[]{"_id", "address", "date", "body", "type"}, null, null, null);
+
+		try {
+			if (cursor == null) throw new RuntimeException();
+
+			if (cursor.moveToFirst()) {
+
+				int counter = cursor.getCount();
+				for (int i = 0; i < counter; i++) {
+
+					String type = cursor.getString(4);
+					String address = cursor.getString(1);
+
+					if (address.equals(profile.phone)) {
+						String date = cursor.getString(2);
+						String body = cursor.getString(3);
+
+						String from = "";
+						if (Integer.parseInt(type) == Telephony.Sms.MESSAGE_TYPE_SENT) {
+							from = "Me :";
+						} else {
+							from = "He :";
+						}
+
+						smsMessages.add(new SmsMessage(from, body, date));
+					}
+
+					cursor.moveToNext();
+
+				}
+			}
+		} catch (Throwable e) {
+			Log.e("CHECK_SMS", "fetchSmsInbox: ", e);
+		} finally {
+			cursor.close();
+		}
+		cursor.close();
+		return smsMessages;
+	}
+
+	private void fillContainer() {
+		ArrayList<SmsMessage> smsMessages = fetchSmsInbox();
+		LayoutInflater inflater = getLayoutInflater();
+
+		messageContainer.removeAllViews();
+		for (int i = 0; i < smsMessages.size(); i++) {
+			messageContainer.addView(new SmsMessageView(smsMessages.get(i).from, smsMessages.get(i).body).onCreate(inflater, messageContainer, ChatActivity.this));
 		}
 	}
 
@@ -63,11 +170,12 @@ public class ChatActivity extends Activity {
 		super.onBackPressed();
 	}
 
-	public static void start(Context context, @NotNull String firstName, @NotNull String lastName) {
+	public static void start(Context context, @NotNull Profile profile) {
 		Intent intent = new Intent(context, ChatActivity.class);
 
-		intent.putExtra("firstName", firstName);
-		intent.putExtra("lastName", lastName);
+		intent.putExtra("profile", profile.toJson().toString());
+
+
 
 		context.startActivity(intent);
 	}

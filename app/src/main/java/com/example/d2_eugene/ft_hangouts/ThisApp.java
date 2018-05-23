@@ -1,9 +1,14 @@
 package com.example.d2_eugene.ft_hangouts;
 
+import android.Manifest;
+import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.provider.Telephony;
 import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.models.Profile;
+import com.example.d2_eugene.ft_hangouts.util.SmsBroadcastReceiver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +21,22 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ThisApp {
+public class ThisApp extends Application{
+
+	private SmsBroadcastReceiver smsBroadcastReceiver;
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		smsBroadcastReceiver = new SmsBroadcastReceiver("", "");
+		registerReceiver(smsBroadcastReceiver, new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION));
+	}
+
+	@Override
+	public void onTerminate() {
+		unregisterReceiver(smsBroadcastReceiver);
+		super.onTerminate();
+	}
 
 	private final static String USER_ID = "userId";
 
@@ -57,5 +77,7 @@ public class ThisApp {
 
 		return users;
 	}
+
+
 
 }
