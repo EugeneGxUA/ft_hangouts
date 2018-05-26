@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.anotation;
+package com.example.d2_eugene.ft_hangouts.annotation;
 
 
 import java.lang.annotation.Documented;

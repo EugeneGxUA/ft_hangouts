@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.ui.model;
+package com.example.d2_eugene.ft_hangouts.models;
 
 public class SmsMessage {
 

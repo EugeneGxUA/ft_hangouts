@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.ui.model;
+package com.example.d2_eugene.ft_hangouts.view;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.ui.activity.ChatActivity;
-import com.example.d2_eugene.ft_hangouts.view.ViewCreatorWithArgument;
+import com.example.d2_eugene.ft_hangouts.util.ViewCreatorWithArgument;
 
 public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 

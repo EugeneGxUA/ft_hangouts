@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
-import com.example.d2_eugene.ft_hangouts.ThisApp;
-import com.example.d2_eugene.ft_hangouts.anotation.Nullable;
+import com.example.d2_eugene.ft_hangouts.annotation.Nullable;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
 import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
@@ -93,7 +91,7 @@ public class AddUserActivity extends Activity {
 					profile.email = emailField.getValue();
 					profile.companyName = companyNameField.getValue();
 
-					ThisApp.editProfile(AddUserActivity.this, profile.toJson());
+					Profile.editProfile(AddUserActivity.this, profile.toJson());
 					finish();
 				} catch (JSONException | IOException e) {
 					throw new RuntimeException(e);
@@ -113,7 +111,7 @@ public class AddUserActivity extends Activity {
 							AddUserActivity.this
 						);
 
-						ThisApp.saveProfile(AddUserActivity.this, profile.toJson());
+						Profile.saveProfile(AddUserActivity.this, profile.toJson());
 						finish();
 					} catch (JSONException | IOException e) {
 						throw new RuntimeException(e);

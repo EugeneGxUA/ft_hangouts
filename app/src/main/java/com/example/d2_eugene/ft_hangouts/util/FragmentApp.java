@@ -5,9 +5,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
-import com.example.d2_eugene.ft_hangouts.anotation.NotNull;
-import com.example.d2_eugene.ft_hangouts.anotation.ToOverride;
-import com.example.d2_eugene.ft_hangouts.view.Retainable;
+import com.example.d2_eugene.ft_hangouts.annotation.NotNull;
+import com.example.d2_eugene.ft_hangouts.annotation.ToOverride;
 
 public class FragmentApp extends Fragment implements Retainable {
 

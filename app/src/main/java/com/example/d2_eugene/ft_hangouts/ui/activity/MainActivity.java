@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.d2_eugene.ft_hangouts.R;
-import com.example.d2_eugene.ft_hangouts.ThisApp;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
-import com.example.d2_eugene.ft_hangouts.ui.model.UserProfileShortView;
+import com.example.d2_eugene.ft_hangouts.view.UserProfileShortView;
 
 import org.json.JSONException;
 
@@ -51,7 +50,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 
 		try {
-			Profile[] allUsers = ThisApp.readProfiles(MainActivity.this);
+			Profile[] allUsers = Profile.readProfiles(MainActivity.this);
 			LayoutInflater inflater = getLayoutInflater();
 			contentContainer.removeAllViews();
 			for (Profile profile : allUsers) {

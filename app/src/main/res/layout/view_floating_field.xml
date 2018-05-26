@@ -16,7 +16,6 @@
 			android:id="@+id/hint_text_view"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Test text"
 			android:textSize="20sp"
 			android:paddingTop="25dp"
 			android:transformPivotY="-40dp"

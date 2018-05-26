@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.anotation;
+package com.example.d2_eugene.ft_hangouts.annotation;
 
 
 import java.lang.annotation.Documented;
@@ -8,9 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE})
+@Target ({
+	ElementType.METHOD
+})
 @Documented
-public @interface Nullable {
-
-
+public @interface ToOverride {
 }

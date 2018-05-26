@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,16 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.R;
-import com.example.d2_eugene.ft_hangouts.anotation.NotNull;
+import com.example.d2_eugene.ft_hangouts.annotation.NotNull;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
-import com.example.d2_eugene.ft_hangouts.ui.model.SmsMessage;
+import com.example.d2_eugene.ft_hangouts.models.SmsMessage;
 import com.example.d2_eugene.ft_hangouts.view.SmsMessageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class ChatActivity extends Activity {

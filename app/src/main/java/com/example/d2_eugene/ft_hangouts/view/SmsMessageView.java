@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
+import com.example.d2_eugene.ft_hangouts.util.ViewCreatorWithArgument;
 
 public class SmsMessageView implements ViewCreatorWithArgument<Activity> {
 
