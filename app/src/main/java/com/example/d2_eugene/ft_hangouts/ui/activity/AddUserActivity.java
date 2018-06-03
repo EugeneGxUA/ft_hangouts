@@ -12,7 +12,7 @@ import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.annotation.Nullable;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.util.ValueChangedListener;
-import com.example.d2_eugene.ft_hangouts.view.FloatingLabelField;
+import com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField;
 
 import org.json.JSONException;
 import org.json.JSONObject;

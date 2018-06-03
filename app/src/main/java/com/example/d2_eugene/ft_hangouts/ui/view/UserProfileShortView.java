@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.view;
+package com.example.d2_eugene.ft_hangouts.ui.view;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -12,18 +12,31 @@ import com.example.d2_eugene.ft_hangouts.models.Profile;
 import com.example.d2_eugene.ft_hangouts.ui.activity.ChatActivity;
 import com.example.d2_eugene.ft_hangouts.util.ViewCreatorWithArgument;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 
-	private final Profile profile;
+	private final int id;
 
 
 	@Override
 	public View onCreate(LayoutInflater inflater, ViewGroup container, final Activity activity) {
 		final View rootView = inflater.inflate(R.layout.item_user_short, container, false);
 
+		final Profile profile; {
+			try {
+				profile = Profile.readProfileById(activity, id);
+			} catch (JSONException | IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+
 		final ViewGroup userButton = rootView.findViewById(R.id.user_button); {
 			userButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				ChatActivity.start(activity, profile);
+				ChatActivity.start(activity, id);
 			} });
 		}
 
@@ -43,8 +56,8 @@ public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 	}
 
 
-	public UserProfileShortView(Profile profile) {
-		this.profile = profile;
+	public UserProfileShortView(int id) {
+		this.id = id;
 	}
 
 }

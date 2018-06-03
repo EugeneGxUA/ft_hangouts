@@ -46,28 +46,28 @@
 			</LinearLayout>
 
 
-			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+			<com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField
 				android:id="@+id/first_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				/>
 
-			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+			<com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField
 				android:id="@+id/last_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				/>
-			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+			<com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField
 				android:id="@+id/phone_number"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				/>
-			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+			<com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField
 				android:id="@+id/email"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				/>
-			<com.example.d2_eugene.ft_hangouts.view.FloatingLabelField
+			<com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField
 				android:id="@+id/company_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

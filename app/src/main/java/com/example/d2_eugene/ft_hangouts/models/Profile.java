@@ -51,6 +51,10 @@ public class Profile {
 
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
 	public Profile(JSONObject user) {
 
 		try {
@@ -121,6 +125,24 @@ public class Profile {
 		return users;
 	}
 
+	public static Profile readProfileById(Context context, int id) throws JSONException, IOException {
+
+		final File folder = context.getFilesDir();
+		final File userFile = new File(folder, String.valueOf(id));
+
+		BufferedReader reader = new BufferedReader(new FileReader(userFile));
+		StringBuilder stringBuilder = new StringBuilder();
+		while (true) {
+			int c = reader.read();
+			if (c == -1) break;
+
+			stringBuilder.append((char) c);
+		}
+
+		final JSONObject userJson = new JSONObject(stringBuilder.toString());
+		return new Profile(userJson);
+	}
+
 	public static void editProfile(Context context, JSONObject newProfile) throws JSONException, IOException {
 		final File folder = context.getFilesDir();
 		final File file = new File(folder, newProfile.getString(APP_PREFERENCES_USER_ID));
@@ -132,9 +154,6 @@ public class Profile {
 
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			writer.write(newProfile.toString());
-
-			Log.d("CHECK_FILE", "editProfile: " + file.getName());
-			Log.d("CHECK_FILE", "editProfile: " + newProfile.toString());
 		}
 	}
 }

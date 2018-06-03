@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.view;
+package com.example.d2_eugene.ft_hangouts.ui.view;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;

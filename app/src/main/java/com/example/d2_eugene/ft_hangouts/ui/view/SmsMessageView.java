@@ -1,4 +1,4 @@
-package com.example.d2_eugene.ft_hangouts.view;
+package com.example.d2_eugene.ft_hangouts.ui.view;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

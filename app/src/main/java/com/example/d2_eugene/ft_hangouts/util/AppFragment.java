@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import com.example.d2_eugene.ft_hangouts.annotation.NotNull;
 import com.example.d2_eugene.ft_hangouts.annotation.ToOverride;
 
-public class FragmentApp extends Fragment implements Retainable {
+public class AppFragment extends Fragment implements Retainable {
 
 	private Activity activity;
 
