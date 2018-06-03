@@ -30,9 +30,10 @@ public class Profile {
 	public String phone;
 	public String email;
 	public String companyName;
+	public String avatarImage;
 
 	@SuppressLint("ApplySharedPref")
-	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, Context context) {
+	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, @Nullable String avatarImage, Context context) {
 
 		final SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCES_USER_PROFILE, Context.MODE_PRIVATE);
 		this.id = sharedPreferences.getInt(APP_PREFERENCES_USER_ID, 1);
@@ -46,6 +47,7 @@ public class Profile {
 		this.phone = phone;
 		this.email = email;
 		this.companyName = companyName;
+		this.avatarImage = avatarImage;
 
 	}
 
@@ -59,6 +61,7 @@ public class Profile {
 			this.phone = user.getString("phoneNumber");
 			this.email = user.getString("email");
 			this.companyName = user.getString("companyName");
+			this.avatarImage = user.getString("avatar");
 		}catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -74,6 +77,7 @@ public class Profile {
 			user.put("phoneNumber", phone);
 			user.put("companyName", companyName);
 			user.put("email", email);
+			user.put("avatar", avatarImage);
 
 			return user;
 		} catch (JSONException e) {
