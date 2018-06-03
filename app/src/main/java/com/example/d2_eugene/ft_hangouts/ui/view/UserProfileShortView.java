@@ -1,10 +1,12 @@
 package com.example.d2_eugene.ft_hangouts.ui.view;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
@@ -19,7 +21,6 @@ import java.io.IOException;
 public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 
 	private final int id;
-
 
 	@Override
 	public View onCreate(LayoutInflater inflater, ViewGroup container, final Activity activity) {
@@ -49,7 +50,10 @@ public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 		}
 
 		final ImageView userAvatar = rootView.findViewById(R.id.user_avatar); {
-
+			final Uri imageUri = profile.getRealPathFromFile(activity);
+			if (imageUri!= null) {
+				userAvatar.setImageURI(imageUri);
+			}
 		}
 
 		return rootView;

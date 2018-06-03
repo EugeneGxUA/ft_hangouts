@@ -39,32 +39,6 @@ public class ChatActivity extends Activity {
 	private ViewGroup messageContainer;
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-		if (requestCode == 1) {
-			for (int i = 0; i < permissions.length; i++) {
-				String permission = permissions[i];
-				int requestResult = grantResults[i];
-
-				if (permission.equals(Manifest.permission.READ_SMS))  {
-					if (requestResult == PackageManager.PERMISSION_GRANTED) {
-						fillContainer();
-					} else {
-						onBackPressed();
-					}
-				} else if (permission.equals(Manifest.permission.SEND_SMS)) {
-					if (requestResult == PackageManager.PERMISSION_GRANTED) {
-						//TODO -> make send sms method()
-					} else {
-						Toast.makeText(this, "Need permission for sms send", Toast.LENGTH_SHORT).show();
-					}
-				}
-			}
-		}
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
@@ -87,7 +61,10 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView userAvatar = findViewById(R.id.user_avatar); {
-
+			final Uri imageUri = profile.getRealPathFromFile(ChatActivity.this);
+			if (imageUri!= null) {
+				userAvatar.setImageURI(imageUri);
+			}
 		}
 
 		final TextView userFullName = findViewById(R.id.user_full_name); {
@@ -103,15 +80,7 @@ public class ChatActivity extends Activity {
 		}
 
 		messageContainer = findViewById(R.id.content_container); {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-					requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 1);
-				} else {
-					fillContainer();
-				}
-			} else {
-				fillContainer();
-			}
+			fillContainer();
 		}
 
 		final EditText messageField = findViewById(R.id.message_field); {

@@ -1,10 +1,14 @@
 package com.example.d2_eugene.ft_hangouts.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.R;
 import com.example.d2_eugene.ft_hangouts.models.Profile;
@@ -18,12 +22,59 @@ public class MainActivity extends Activity {
 
 	private ViewGroup contentContainer;
 
+	private static final String TAG = "MainActivity";
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		if (requestCode == 1) {
+			for (int i = 0; i < permissions.length; i++) {
+				String permission = permissions[i];
+				int requestResult = grantResults[i];
+
+				if (permission.equals(Manifest.permission.READ_SMS))  {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+						Toast.makeText(this, "Read sms granted", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(this, "Need permission for sms read", Toast.LENGTH_SHORT).show();
+					}
+				} else if (permission.equals(Manifest.permission.SEND_SMS)) {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+						Toast.makeText(this, "Send sms granted", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(this, "Need permission for sms send", Toast.LENGTH_SHORT).show();
+					}
+				} else if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+						Toast.makeText(this, "Read storage granted", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(this, "Need permission for sms send", Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		contentContainer = findViewById(R.id.content_container);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if	(
+					checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
+					checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||
+					checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+
+				)
+			{
+				requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.READ_EXTERNAL_STORAGE}, RESULT_OK);
+			} else {
+				finish();
+			}
+		}
 
 		final View settingsButton = findViewById(R.id.settings_button); {
 			settingsButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {

@@ -3,6 +3,9 @@ package com.example.d2_eugene.ft_hangouts.models;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.example.d2_eugene.ft_hangouts.annotation.Nullable;
@@ -30,10 +33,10 @@ public class Profile {
 	public String phone;
 	public String email;
 	public String companyName;
-	public String avatarImage;
+	public Uri avatarImage;
 
 	@SuppressLint("ApplySharedPref")
-	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, @Nullable String avatarImage, Context context) {
+	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, @Nullable Uri avatarImage, Context context) {
 
 		final SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCES_USER_PROFILE, Context.MODE_PRIVATE);
 		this.id = sharedPreferences.getInt(APP_PREFERENCES_USER_ID, 1);
@@ -47,7 +50,7 @@ public class Profile {
 		this.phone = phone;
 		this.email = email;
 		this.companyName = companyName;
-		this.avatarImage = avatarImage;
+		if (avatarImage != null) this.avatarImage = avatarImage;
 
 	}
 
@@ -65,7 +68,8 @@ public class Profile {
 			this.phone = user.getString("phoneNumber");
 			this.email = user.getString("email");
 			this.companyName = user.getString("companyName");
-			this.avatarImage = user.getString("avatar");
+
+			if (!user.isNull("avatar")) this.avatarImage = Uri.parse(user.optString("avatar"));
 		}catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -81,7 +85,8 @@ public class Profile {
 			user.put("phoneNumber", phone);
 			user.put("companyName", companyName);
 			user.put("email", email);
-			user.put("avatar", avatarImage);
+
+			if (avatarImage != null) user.put("avatar", avatarImage.toString());
 
 			return user;
 		} catch (JSONException e) {
@@ -93,10 +98,10 @@ public class Profile {
 
 		final String fileName = profile.getString(APP_PREFERENCES_USER_ID);
 
-		FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-		fos.write(profile.toString().getBytes());
-		fos.flush();
-		fos.close();
+		FileOutputStream profileFos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+		profileFos.write(profile.toString().getBytes());
+		profileFos.flush();
+		profileFos.close();
 
 	}
 
@@ -155,5 +160,15 @@ public class Profile {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			writer.write(newProfile.toString());
 		}
+	}
+
+	public Uri getRealPathFromFile(Context context) {
+		final File folder = context.getFilesDir();
+		final File file = new File(folder, String.valueOf(this.id) + ".png");
+
+		if (file.exists()) {
+		    return Uri.fromFile(file);
+        }
+		return null;
 	}
 }
