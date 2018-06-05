@@ -119,7 +119,7 @@ public class AddUserActivity extends Activity {
 					profile.phone = phoneNumberField.getValue();
 					profile.email = emailField.getValue();
 					profile.companyName = companyNameField.getValue();
-					profile.avatarImage = imagePath;
+					if (imagePath != null) profile.avatarImage = imagePath;
 
 					Profile.editProfile(AddUserActivity.this, profile.toJson());
 					finish();

@@ -105,10 +105,6 @@ public class Profile {
 		profileFos.flush();
 		profileFos.close();
 
-		if (!profile.getString("avatar").isEmpty()) {
-			Log.d("CHECK_IMAGE_PATH", "saveProfile: " + profile.getString("avatar"));
-		}
-
 	}
 
 
@@ -180,10 +176,10 @@ public class Profile {
 			.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 		if (cursor.moveToFirst()) {
 			String s = cursor.getString(column_index);
-			// cursor.close();
+			 cursor.close();
 			return s;
 		}
-		// cursor.close();
+		cursor.close();
 		return null;
 	}
 }
