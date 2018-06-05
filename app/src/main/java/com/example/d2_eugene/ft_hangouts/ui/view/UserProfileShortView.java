@@ -50,9 +50,11 @@ public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 		}
 
 		final ImageView userAvatar = rootView.findViewById(R.id.user_avatar); {
-			final Uri imageUri = profile.getRealPathFromFile(activity);
-			if (imageUri!= null) {
-				userAvatar.setImageURI(imageUri);
+			if (profile.avatarImage != null) {
+				final Uri imageUri = Uri.parse(profile.avatarImage);
+				if (imageUri != null) {
+					userAvatar.setImageURI(imageUri);
+				}
 			}
 		}
 

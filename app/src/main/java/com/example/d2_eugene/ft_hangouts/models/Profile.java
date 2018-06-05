@@ -1,6 +1,7 @@
 package com.example.d2_eugene.ft_hangouts.models;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class Profile {
 
@@ -33,10 +35,10 @@ public class Profile {
 	public String phone;
 	public String email;
 	public String companyName;
-	public Uri avatarImage;
+	public String avatarImage;
 
 	@SuppressLint("ApplySharedPref")
-	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, @Nullable Uri avatarImage, Context context) {
+	public Profile(String firstName, String lastName, String phone, @Nullable String email, @Nullable String companyName, @Nullable String avatarImage, Context context) {
 
 		final SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCES_USER_PROFILE, Context.MODE_PRIVATE);
 		this.id = sharedPreferences.getInt(APP_PREFERENCES_USER_ID, 1);
@@ -69,7 +71,7 @@ public class Profile {
 			this.email = user.getString("email");
 			this.companyName = user.getString("companyName");
 
-			if (!user.isNull("avatar")) this.avatarImage = Uri.parse(user.optString("avatar"));
+			if (!user.isNull("avatar")) this.avatarImage = user.optString("avatar");
 		}catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -86,7 +88,7 @@ public class Profile {
 			user.put("companyName", companyName);
 			user.put("email", email);
 
-			if (avatarImage != null) user.put("avatar", avatarImage.toString());
+			if (avatarImage != null) user.put("avatar", avatarImage);
 
 			return user;
 		} catch (JSONException e) {
@@ -103,7 +105,12 @@ public class Profile {
 		profileFos.flush();
 		profileFos.close();
 
+		if (!profile.getString("avatar").isEmpty()) {
+			Log.d("CHECK_IMAGE_PATH", "saveProfile: " + profile.getString("avatar"));
+		}
+
 	}
+
 
 	public static Profile[] readProfiles(Context context) throws JSONException, IOException {
 		File folder = context.getFilesDir();
@@ -162,13 +169,21 @@ public class Profile {
 		}
 	}
 
-	public Uri getRealPathFromFile(Context context) {
-		final File folder = context.getFilesDir();
-		final File file = new File(folder, String.valueOf(this.id) + ".png");
-
-		if (file.exists()) {
-		    return Uri.fromFile(file);
-        }
+	public static String getRealPathFromURI(Uri contentURI, Activity context) {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		@SuppressWarnings("deprecation")
+		Cursor cursor = context.managedQuery(contentURI, projection, null,
+			null, null);
+		if (cursor == null)
+			return null;
+		int column_index = cursor
+			.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		if (cursor.moveToFirst()) {
+			String s = cursor.getString(column_index);
+			// cursor.close();
+			return s;
+		}
+		// cursor.close();
 		return null;
 	}
 }

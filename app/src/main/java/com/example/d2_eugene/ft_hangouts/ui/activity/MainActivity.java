@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 
 				)
 			{
-				requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.READ_EXTERNAL_STORAGE}, RESULT_OK);
+				requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 			} else {
 				finish();
 			}

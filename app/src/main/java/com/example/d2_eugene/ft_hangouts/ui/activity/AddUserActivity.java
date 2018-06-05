@@ -1,16 +1,10 @@
 package com.example.d2_eugene.ft_hangouts.ui.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -27,17 +21,13 @@ import com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class AddUserActivity extends Activity {
 
 	@Nullable private Profile profile;
-	private ImageView avatarImage;
-	private Uri imagePath;
+	private ImageView avatarImageView;
+	private String imagePath;
 	//TODO -> make image save
 
 	private static final String TAG = "AddUserActivity";
@@ -46,8 +36,9 @@ public class AddUserActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			imagePath = data.getData();
-			avatarImage.setImageURI(imagePath);
+			Uri imageUri = data.getData();
+			avatarImageView.setImageURI(imageUri);
+			imagePath = Profile.getRealPathFromURI(imageUri, AddUserActivity.this);
 		} else {
 			Toast.makeText(AddUserActivity.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
 		}
@@ -71,8 +62,10 @@ public class AddUserActivity extends Activity {
 			profile = null;
 		}
 
-		avatarImage = findViewById(R.id.profile_image); {
-			avatarImage.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+		avatarImageView = findViewById(R.id.profile_image); {
+
+			if (profile != null && profile.avatarImage != null) avatarImageView.setImageURI(Uri.parse(profile.avatarImage));
+			avatarImageView.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 				Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 				photoPickerIntent.setType("image/*");
 				startActivityForResult(photoPickerIntent, 1);

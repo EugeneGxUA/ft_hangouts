@@ -61,9 +61,11 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView userAvatar = findViewById(R.id.user_avatar); {
-			final Uri imageUri = profile.getRealPathFromFile(ChatActivity.this);
-			if (imageUri!= null) {
-				userAvatar.setImageURI(imageUri);
+			if (profile.avatarImage != null) {
+				final Uri imageUri = Uri.parse(profile.avatarImage);
+				if (imageUri != null) {
+					userAvatar.setImageURI(imageUri);
+				}
 			}
 		}
 
@@ -105,7 +107,12 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView userAvatar = findViewById(R.id.user_avatar); {
-
+			if (profile.avatarImage != null) {
+				final Uri imageUri = Uri.parse(profile.avatarImage);
+				if (imageUri != null) {
+					userAvatar.setImageURI(imageUri);
+				}
+			}
 		}
 
 		final TextView userFullName = findViewById(R.id.user_full_name); {
