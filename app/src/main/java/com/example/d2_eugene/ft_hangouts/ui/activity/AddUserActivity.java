@@ -3,6 +3,7 @@ package com.example.d2_eugene.ft_hangouts.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -21,6 +22,7 @@ import com.example.d2_eugene.ft_hangouts.ui.view.FloatingLabelField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class AddUserActivity extends Activity {
@@ -28,7 +30,6 @@ public class AddUserActivity extends Activity {
 	@Nullable private Profile profile;
 	private ImageView avatarImageView;
 	private String imagePath;
-	//TODO -> make image save
 
 	private static final String TAG = "AddUserActivity";
 
@@ -63,8 +64,15 @@ public class AddUserActivity extends Activity {
 		}
 
 		avatarImageView = findViewById(R.id.profile_image); {
+			if (profile != null) {
+				try {
+					avatarImageView.setImageBitmap(profile.getAvatarBitmap(this));
+				} catch (FileNotFoundException e) {
+					Toast.makeText(AddUserActivity.this, "NO PHOTO", Toast.LENGTH_SHORT).show();
+				}
+			}
 
-			if (profile != null && profile.avatarImage != null) avatarImageView.setImageURI(Uri.parse(profile.avatarImage));
+
 			avatarImageView.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 				Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 				photoPickerIntent.setType("image/*");
@@ -104,12 +112,27 @@ public class AddUserActivity extends Activity {
 			companyNameField.setHintText("Company");
 		}
 
+		final ImageView deleteButton = findViewById(R.id.delete_button); {
+			if (profile != null) {
+				deleteButton.setVisibility(View.VISIBLE);
+			} else {
+				deleteButton.setVisibility(View.INVISIBLE);
+			}
+			deleteButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+				if (profile != null) {
+					profile.deleteProfile(AddUserActivity.this);
+					MainActivity.start(AddUserActivity.this);
+				}
+			} });
+		}
+
 		if (profile != null) {
 			fistNameField.setText(profile.firstName);
 			lastNameField.setText(profile.lastName);
 			phoneNumberField.setText(profile.phone);
 			emailField.setText(profile.email);
 			companyNameField.setText(profile.companyName);
+
 
 			saveButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 				try {
@@ -119,7 +142,7 @@ public class AddUserActivity extends Activity {
 					profile.phone = phoneNumberField.getValue();
 					profile.email = emailField.getValue();
 					profile.companyName = companyNameField.getValue();
-					if (imagePath != null) profile.avatarImage = imagePath;
+//					if (imagePath != null) profile.avatarImage = imagePath;
 
 					Profile.editProfile(AddUserActivity.this, profile.toJson());
 					finish();
@@ -138,11 +161,11 @@ public class AddUserActivity extends Activity {
 							phoneNumberField.getValue(),
 							emailField.getValue(),
 							companyNameField.getValue(),
-							imagePath,
+//							imagePath,
 							AddUserActivity.this
 						);
 
-						Profile.saveProfile(AddUserActivity.this, profile.toJson());
+						Profile.saveProfile(AddUserActivity.this, profile.toJson(), imagePath);
 						finish();
 					} catch (JSONException | IOException e) {
 						throw new RuntimeException(e);
@@ -160,7 +183,9 @@ public class AddUserActivity extends Activity {
 	public static void start(Context context, @Nullable Profile profile) {
 		Intent intent = new Intent(context, AddUserActivity.class);
 
-		if (profile != null) intent.putExtra("profile", profile.toJson().toString());
+		if (profile != null) {
+			intent.putExtra("profile", profile.toJson().toString());
+		}
 		context.startActivity(intent);
 
 	}

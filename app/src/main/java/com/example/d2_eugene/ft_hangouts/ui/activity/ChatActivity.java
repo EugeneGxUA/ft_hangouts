@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,9 @@ import com.example.d2_eugene.ft_hangouts.ui.view.SmsMessageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -43,40 +47,15 @@ public class ChatActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
 
-
 		final Intent intent = getIntent();
 		id = intent.getIntExtra("userId", 0);
 
-		try {
-			profile = Profile.readProfileById(ChatActivity.this, id);
-		} catch (JSONException | IOException e) {
-			throw new RuntimeException(e);
-		}
-
-
-
-		final ViewGroup profileButton = findViewById(R.id.user_profile_button); {
-
-
-		}
-
-		final ImageView userAvatar = findViewById(R.id.user_avatar); {
-			if (profile.avatarImage != null) {
-				final Uri imageUri = Uri.parse(profile.avatarImage);
-				if (imageUri != null) {
-					userAvatar.setImageURI(imageUri);
-				}
-			}
-		}
-
-		final TextView userFullName = findViewById(R.id.user_full_name); {
-			final String fullName = profile.firstName + " " + profile.lastName;
-			userFullName.setText(fullName);
-		}
+		final ViewGroup profileButton = findViewById(R.id.user_profile_button);
+		final ImageView userAvatar = findViewById(R.id.user_avatar);
+		final TextView userFullName = findViewById(R.id.user_full_name);
 
 		final ImageView editButton = findViewById(R.id.edit_button); {
 			editButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				//todo - return new profile if edit
 				AddUserActivity.start(ChatActivity.this, profile);
 			} });
 		}
@@ -84,15 +63,10 @@ public class ChatActivity extends Activity {
 		messageContainer = findViewById(R.id.content_container); {
 			fillContainer();
 		}
-
-		final EditText messageField = findViewById(R.id.message_field); {
-
-		}
+		final EditText messageField = findViewById(R.id.message_field);
 
 		final ImageView sendButton = findViewById(R.id.send_button); {
 			final String msg = messageField.getText().toString();
-
-
 		}
 	}
 
@@ -107,11 +81,10 @@ public class ChatActivity extends Activity {
 		}
 
 		final ImageView userAvatar = findViewById(R.id.user_avatar); {
-			if (profile.avatarImage != null) {
-				final Uri imageUri = Uri.parse(profile.avatarImage);
-				if (imageUri != null) {
-					userAvatar.setImageURI(imageUri);
-				}
+			try {
+				userAvatar.setImageBitmap(profile.getAvatarBitmap(this));
+			} catch (FileNotFoundException e) {
+				Toast.makeText(ChatActivity.this, "NO PHOTO", Toast.LENGTH_SHORT).show();
 			}
 		}
 
@@ -122,21 +95,12 @@ public class ChatActivity extends Activity {
 
 		final ImageView editButton = findViewById(R.id.edit_button); {
 			editButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				//todo - return new profile if edit
 				AddUserActivity.start(ChatActivity.this, profile);
 			} });
 		}
 
 		messageContainer = findViewById(R.id.content_container); {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-					requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 1);
-				} else {
-					fillContainer();
-				}
-			} else {
-				fillContainer();
-			}
+			fillContainer();
 		}
 
 		final EditText messageField = findViewById(R.id.message_field); {

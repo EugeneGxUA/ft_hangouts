@@ -1,6 +1,7 @@
 package com.example.d2_eugene.ft_hangouts.ui.view;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.example.d2_eugene.ft_hangouts.util.ViewCreatorWithArgument;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
@@ -50,12 +53,9 @@ public class UserProfileShortView implements ViewCreatorWithArgument<Activity> {
 		}
 
 		final ImageView userAvatar = rootView.findViewById(R.id.user_avatar); {
-			if (profile.avatarImage != null) {
-				final Uri imageUri = Uri.parse(profile.avatarImage);
-				if (imageUri != null) {
-					userAvatar.setImageURI(imageUri);
-				}
-			}
+			try {
+				userAvatar.setImageBitmap(profile.getAvatarBitmap(activity));
+			} catch (FileNotFoundException e) {}
 		}
 
 		return rootView;

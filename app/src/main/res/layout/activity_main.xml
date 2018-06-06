@@ -77,7 +77,7 @@
 			android:layout_width="56dp"
 			android:layout_height="56dp"
 			android:src="@mipmap/round_add_black_24"
-			android:background="@drawable/round_button"
+			android:background="@drawable/round_button_colored"
 			android:layout_gravity="right|bottom"
 			android:layout_margin="16dp"
 			android:elevation="6dp"

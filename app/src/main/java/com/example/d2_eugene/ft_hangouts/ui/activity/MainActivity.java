@@ -2,6 +2,8 @@ package com.example.d2_eugene.ft_hangouts.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -113,5 +115,16 @@ public class MainActivity extends Activity {
 		} catch (JSONException | IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 Call this method()
+	 when you need finish all activity
+	 and open MainActivity
+	 */
+	public static void start(Context context) {
+		final Intent intent = new Intent(context, MainActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 	}
 }
