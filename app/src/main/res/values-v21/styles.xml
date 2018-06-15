@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="Custom_dark" parent="android:Theme.Material.NoActionBar" >
+		<item name="android:colorAccent">@color/accent_material_dark</item>
+	</style>
+
+	<style name="Custom_light" parent="android:Theme.Material.Light.NoActionBar" >
+		<item name="android:colorAccent">@color/accent_material_light</item>
+	</style>
+</resources>

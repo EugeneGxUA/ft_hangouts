@@ -5,7 +5,7 @@
 	>
 	<item android:id="@android:id/background">
 		<shape android:shape="oval">
-			<solid android:color="#FFB300"/>
+			<solid android:color="#f58428"/>
 		</shape>
 	</item>
 

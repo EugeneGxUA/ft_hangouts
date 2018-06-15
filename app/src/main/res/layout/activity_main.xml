@@ -6,6 +6,7 @@
 	android:layout_height="match_parent"
 	android:clipChildren="false"
 	android:clipToPadding="false"
+	style="@style/Custom_dark"
 	>
 	
 	<LinearLayout
@@ -13,12 +14,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="60dp"
 		android:orientation="horizontal"
-		android:background="#FFEB3B"
 		android:gravity="center_vertical"
 		android:elevation="4dp"
 		>
 
 		<TextView
+			android:id="@+id/title_bar_text"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/app_name"

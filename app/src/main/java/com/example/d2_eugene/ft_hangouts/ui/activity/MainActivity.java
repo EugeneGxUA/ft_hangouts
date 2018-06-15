@@ -4,12 +4,16 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.d2_eugene.ft_hangouts.R;
@@ -25,6 +29,8 @@ public class MainActivity extends Activity {
 	private ViewGroup contentContainer;
 
 	private static final String TAG = "MainActivity";
+
+	boolean darkTheme = true;
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -61,6 +67,18 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		final SharedPreferences themePrefs = getSharedPreferences("theme", Context.MODE_PRIVATE); {
+			if (themePrefs.getString("theme", "").equals("light")) {
+				setTheme(R.style.Custom_light);
+				darkTheme = false;
+			}
+			else {
+				setTheme(R.style.Custom_dark);
+				darkTheme = true;
+			}
+		}
+
 		setContentView(R.layout.activity_main);
 
 		contentContainer = findViewById(R.id.content_container);
@@ -80,12 +98,18 @@ public class MainActivity extends Activity {
 
 		final View settingsButton = findViewById(R.id.settings_button); {
 			settingsButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
-				//TODO -> settings
+				SettingsActivity.start(MainActivity.this);
 			} });
 		}
 
 		final ViewGroup titleBar = findViewById(R.id.title_bar); {
-			//TODO -> set color
+			final TextView titleText = findViewById(R.id.title_bar_text);
+			if (darkTheme) {
+				titleBar.setBackgroundColor(Color.parseColor("#f58428"));
+				titleText.setTextColor(Color.BLACK);
+			} else {
+				titleBar.setBackgroundColor(Color.parseColor("#3F51B5"));
+			}
 		}
 
 
@@ -124,7 +148,7 @@ public class MainActivity extends Activity {
 	 */
 	public static void start(Context context) {
 		final Intent intent = new Intent(context, MainActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
 }
