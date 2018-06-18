@@ -99,7 +99,7 @@
 			android:layout_gravity="bottom"
 			android:layout_weight="1"
 			android:layout_marginLeft="5dp"
-			android:hint="Message"
+			android:hint="@string/message"
 			android:maxLength="500"
 			/>
 

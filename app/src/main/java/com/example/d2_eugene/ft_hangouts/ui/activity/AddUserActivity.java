@@ -3,12 +3,14 @@ package com.example.d2_eugene.ft_hangouts.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,12 @@ public class AddUserActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		final SharedPreferences themePrefs = getSharedPreferences("theme", Context.MODE_PRIVATE); {
+			if (themePrefs.getString("theme", "").equals("light")) setTheme(R.style.Custom_light);
+			else setTheme(R.style.Custom_dark);
+		}
+
 		setContentView(R.layout.activity_profile);
 
 		final TextView saveButton = findViewById(R.id.save_button);
@@ -81,17 +89,17 @@ public class AddUserActivity extends Activity {
 		}
 
 		final FloatingLabelField fistNameField = findViewById(R.id.first_name); {
-			fistNameField.setHintText("First name");
+			fistNameField.setHintText(getString(R.string.first_name));
 			fistNameField.setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 
 		final FloatingLabelField lastNameField = findViewById(R.id.last_name); {
-			lastNameField.setHintText("Last name");
+			lastNameField.setHintText(getString(R.string.last_name));
 			lastNameField.setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 
 		final FloatingLabelField phoneNumberField = findViewById(R.id.phone_number); {
-			phoneNumberField.setHintText("Phone number");
+			phoneNumberField.setHintText(getString(R.string.phone_number));
 			phoneNumberField.setInputType(InputType.TYPE_CLASS_PHONE);
 
 			phoneNumberField.addValueChangeListener(new ValueChangedListener() {
@@ -104,12 +112,12 @@ public class AddUserActivity extends Activity {
 		//TODO VALIDATION
 
 		final FloatingLabelField emailField = findViewById(R.id.email); {
-			emailField.setHintText("E-mail");
+			emailField.setHintText(getString(R.string.e_mail));
 			emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		}
 
 		final FloatingLabelField companyNameField = findViewById(R.id.company_name); {
-			companyNameField.setHintText("Company");
+			companyNameField.setHintText(getString(R.string.company_name));
 		}
 
 		final ImageView deleteButton = findViewById(R.id.delete_button); {
@@ -137,12 +145,24 @@ public class AddUserActivity extends Activity {
 			saveButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 				try {
 
-					profile.firstName = fistNameField.getValue();
-					profile.lastName = lastNameField.getValue();
-					profile.phone = phoneNumberField.getValue();
+					String firstName = fistNameField.getValue();
+					String lastName = lastNameField.getValue();
+					String phone = phoneNumberField.getValue();
+					if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty()) {
+						Toast.makeText(AddUserActivity.this, getString(R.string.required_fields), Toast.LENGTH_SHORT).show();
+						return;
+					}
+					if (phone.length() < 9 || phone.length() > 13) {
+						Toast.makeText(AddUserActivity.this, getString(R.string.phone_validation_error), Toast.LENGTH_SHORT).show();
+						return;
+					}
+
+
+					profile.firstName = firstName;
+					profile.lastName = lastName;
+					profile.phone = phone;
 					profile.email = emailField.getValue();
 					profile.companyName = companyNameField.getValue();
-//					if (imagePath != null) profile.avatarImage = imagePath;
 
 					Profile.editProfile(AddUserActivity.this, profile.toJson());
 					finish();
@@ -155,13 +175,35 @@ public class AddUserActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					try {
+						View view = getCurrentFocus();
+
+						String firstName = fistNameField.getValue();
+						String lastName = lastNameField.getValue();
+						String phone = phoneNumberField.getValue();
+						if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty()) {
+							Toast.makeText(AddUserActivity.this, getString(R.string.required_fields), Toast.LENGTH_SHORT).show();
+
+							if (view != null) {
+								InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+							}
+							return;
+						}
+						if (phone.length() < 9 || phone.length() > 13) {
+							Toast.makeText(AddUserActivity.this, getString(R.string.phone_validation_error), Toast.LENGTH_SHORT).show();
+							if (view != null) {
+								InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+							}
+							return;
+						}
+
 						final Profile profile = new Profile(
-							fistNameField.getValue(),
-							lastNameField.getValue(),
-							phoneNumberField.getValue(),
+							firstName,
+							lastName,
+							phone,
 							emailField.getValue(),
 							companyNameField.getValue(),
-//							imagePath,
 							AddUserActivity.this
 						);
 

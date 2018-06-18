@@ -1,0 +1,27 @@
+<resources>
+	<string name="app_name">Ft_hangouts</string>
+
+	<string name="save">Зберегти</string>
+	<string name="message">Повідомлення</string>
+
+	<string name="colors_title">Теми</string>
+	<string name="theme_light_name">Світла "Material" тема</string>
+	<string name="theme_dark_name">Темна "Material" тема</string>
+
+	<string name="language_title">Мова</string>
+	<string name="en_lang">Англійська</string>
+	<string name="ua_lang">Українська</string>
+
+	<string name="first_name">Ім\'я</string>
+	<string name="last_name">Прізвище</string>
+	<string name="phone_number">Номер телефону</string>
+	<string name="e_mail">Електронна адреса</string>
+	<string name="company_name">Назва ккомпанії</string>
+
+
+	<!--Errors-->
+	<string name="required_fields">Необхідно заповнити ім\'я, прызвище та номер телефону</string>
+	<string name="phone_validation_error">Заповніть коректно номер телефону</string>
+
+
+</resources>

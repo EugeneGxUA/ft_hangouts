@@ -18,5 +18,8 @@
 	<string name="e_mail">E-mail</string>
 	<string name="company_name">Company</string>
 
+	<!--Errors-->
+	<string name="required_fields">Need fill First Name and Last Name and Phone number</string>
+	<string name="phone_validation_error">Fill correct phone number</string>
 
 </resources>

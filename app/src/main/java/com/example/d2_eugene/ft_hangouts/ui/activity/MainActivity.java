@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.example.d2_eugene.ft_hangouts.ui.view.UserProfileShortView;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
 
@@ -76,6 +80,21 @@ public class MainActivity extends Activity {
 			else {
 				setTheme(R.style.Custom_dark);
 				darkTheme = true;
+			}
+		}
+
+		final SharedPreferences langPrefs = getSharedPreferences("language", Context.MODE_PRIVATE); {
+			if (langPrefs.getString("language", "").equals("uk")) {
+				Resources resources = getResources();
+				Configuration configuration = resources.getConfiguration();
+
+				DisplayMetrics dm = resources.getDisplayMetrics();
+				Locale locale = new Locale("uk");
+				Locale.setDefault(locale);
+
+				configuration.setLocale(locale);
+
+				resources.updateConfiguration(configuration, dm);
 			}
 		}
 

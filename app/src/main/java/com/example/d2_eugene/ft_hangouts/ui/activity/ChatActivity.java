@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,9 +44,22 @@ public class ChatActivity extends Activity {
 	private int id;
 	private ViewGroup messageContainer;
 
+	private TextView userFullName;
+	boolean darkTheme = true;
+
+	private View titleBar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		final SharedPreferences themePrefs = getSharedPreferences("theme", Context.MODE_PRIVATE); {
+			if (themePrefs.getString("theme", "").equals("light")) {
+				setTheme(R.style.Custom_light);
+				darkTheme = false;
+			}
+			else setTheme(R.style.Custom_dark);
+		}
 		setContentView(R.layout.activity_chat);
 
 		final Intent intent = getIntent();
@@ -52,7 +67,7 @@ public class ChatActivity extends Activity {
 
 		final ViewGroup profileButton = findViewById(R.id.user_profile_button);
 		final ImageView userAvatar = findViewById(R.id.user_avatar);
-		final TextView userFullName = findViewById(R.id.user_full_name);
+		userFullName = findViewById(R.id.user_full_name);
 
 		final ImageView editButton = findViewById(R.id.edit_button); {
 			editButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
@@ -68,6 +83,8 @@ public class ChatActivity extends Activity {
 		final ImageView sendButton = findViewById(R.id.send_button); {
 			final String msg = messageField.getText().toString();
 		}
+
+		titleBar = findViewById(R.id.title_bar);
 	}
 
 	@Override
@@ -88,7 +105,8 @@ public class ChatActivity extends Activity {
 			}
 		}
 
-		final TextView userFullName = findViewById(R.id.user_full_name); {
+		{
+
 			final String fullName = profile.firstName + " " + profile.lastName;
 			userFullName.setText(fullName);
 		}
@@ -109,8 +127,10 @@ public class ChatActivity extends Activity {
 
 		final ImageView sendButton = findViewById(R.id.send_button); {
 			final String msg = messageField.getText().toString();
+		}
 
-
+		if (darkTheme) {
+			titleBar.setBackgroundColor(getResources().getColor(R.color.accent_material_dark));
 		}
 	}
 

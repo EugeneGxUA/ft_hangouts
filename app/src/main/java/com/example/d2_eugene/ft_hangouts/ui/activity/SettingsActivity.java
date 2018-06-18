@@ -7,7 +7,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
+
+import java.util.Locale;
 
 public class SettingsActivity extends Activity {
 
@@ -54,7 +59,7 @@ public class SettingsActivity extends Activity {
 			final View firstSettingElement = inflater.inflate(R.layout.view_expandable_element, contentContainer, false); {
 
 				final TextView elementTitle = firstSettingElement.findViewById(R.id.title_setting_element); {
-					elementTitle.setText("Colors");
+					elementTitle.setText(getString(R.string.colors_title));
 				}
 
 				final View body = firstSettingElement.findViewById(R.id.setting_body);
@@ -72,7 +77,7 @@ public class SettingsActivity extends Activity {
 				}
 
 				final TextView firstElement = firstSettingElement.findViewById(R.id.body_first_text_element); {
-					firstElement.setText("Light Material Theme"); {
+					firstElement.setText(getString(R.string.theme_light_name)); {
 						firstElement.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
 							SharedPreferences.Editor editor = themePrefs.edit();
 							editor.putString("theme", "light");
@@ -87,7 +92,7 @@ public class SettingsActivity extends Activity {
 				}
 
 				final TextView secondElement = firstSettingElement.findViewById(R.id.body_second_text_element); {
-					secondElement.setText("Dark Material Theme"); {
+					secondElement.setText(getString(R.string.theme_dark_name)); {
 						secondElement.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -110,7 +115,7 @@ public class SettingsActivity extends Activity {
 			final View secondSettingElement = inflater.inflate(R.layout.view_expandable_element, contentContainer, false); {
 
 				final TextView elementTitle = secondSettingElement.findViewById(R.id.title_setting_element); {
-					elementTitle.setText("Language");
+					elementTitle.setText(getString(R.string.language_title));
 				}
 
 				final View body = secondSettingElement.findViewById(R.id.setting_body);
@@ -128,7 +133,25 @@ public class SettingsActivity extends Activity {
 				}
 
 				final TextView firstElement = secondSettingElement.findViewById(R.id.body_first_text_element); {
-					firstElement.setText("English");
+					firstElement.setText(getString(R.string.en_lang));
+					firstElement.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+						Resources resources = getResources();
+						Configuration configuration = resources.getConfiguration();
+
+						DisplayMetrics dm = resources.getDisplayMetrics();
+						Locale locale = new Locale("en");
+						Locale.setDefault(locale);
+
+						configuration.setLocale(locale);
+
+						resources.updateConfiguration(configuration, dm);
+
+						SharedPreferences.Editor editor = langPrefs.edit();
+						editor.putString("language", "en");
+						editor.commit();
+
+						recreate();
+					} });
 				}
 
 				final ImageView firstImageElement = secondSettingElement.findViewById(R.id.body_first_image_element); {
@@ -136,7 +159,26 @@ public class SettingsActivity extends Activity {
 				}
 
 				final TextView secondElement = secondSettingElement.findViewById(R.id.body_second_text_element); {
-					secondElement.setText("Ukrainian");
+					secondElement.setText(getString(R.string.ua_lang));
+					secondElement.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {
+						Resources resources = getResources();
+
+						DisplayMetrics dm = resources.getDisplayMetrics();
+						Configuration configuration = resources.getConfiguration();
+
+						Locale locale = new Locale("uk");
+						Locale.setDefault(locale);
+
+						configuration.setLocale(locale);
+
+						resources.updateConfiguration(configuration, dm);
+
+						SharedPreferences.Editor editor = langPrefs.edit();
+						editor.putString("language", "uk");
+						editor.commit();
+
+						recreate();
+					} });
 				}
 
 				final ImageView secondImageElement = secondSettingElement.findViewById(R.id.body_second_image_element); {
