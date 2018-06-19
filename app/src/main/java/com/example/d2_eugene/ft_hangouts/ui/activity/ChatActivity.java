@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -58,9 +59,13 @@ public class ChatActivity extends Activity {
 
 	private SmsBroadcastReceiver smsBroadcastReceiver;
 
+	private Handler handler;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		handler = new Handler(getMainLooper());
 
 		final SharedPreferences themePrefs = getSharedPreferences("theme", Context.MODE_PRIVATE);
 		{
@@ -160,7 +165,12 @@ public class ChatActivity extends Activity {
 				try {
 					SmsManager.getDefault().sendTextMessage(profile.phone, null, msg, null, null);
 					messageField.setText("");
-					fillContainer();
+					handler.postDelayed(new Runnable() { @Override public void run() {
+						fillContainer();
+					} },
+						5000
+					);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					Toast.makeText(ChatActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -175,12 +185,12 @@ public class ChatActivity extends Activity {
 
 		smsBroadcastReceiver = new SmsBroadcastReceiver(profile.phone);
 		registerReceiver(smsBroadcastReceiver, new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION));
-		smsBroadcastReceiver.listener = new SmsBroadcastReceiver.SmsListener() {
+		smsBroadcastReceiver.setListener(new SmsBroadcastReceiver.SmsListener() {
 			@Override
 			public void onTextReceived(String text) {
 				fillContainer();
 			}
-		};
+		});
 
 	}
 

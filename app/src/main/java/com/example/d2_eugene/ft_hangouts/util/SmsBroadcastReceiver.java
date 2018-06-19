@@ -18,7 +18,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
 	final SmsManager smsManager = SmsManager.getDefault();
 
-	public SmsListener listener;
+	private SmsListener listener;
 
 	public SmsBroadcastReceiver(String serviceProviderNumber) {
 		this.serviceProviderNumber = serviceProviderNumber;
@@ -65,7 +65,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 		}
 	}
 
-	void setListener(SmsListener listener) {
+	public void setListener(SmsListener listener) {
 		this.listener = listener;
 	}
 
