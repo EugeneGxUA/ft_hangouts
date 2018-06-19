@@ -39,7 +39,10 @@ public class MainActivity extends Activity {
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		for (int i = 0; i < grantResults.length; i++) {
+			Log.d(TAG, "onRequestPermissionsResult: " + grantResults[i] + "\n");
 
+		}
 		if (requestCode == 1) {
 			for (int i = 0; i < permissions.length; i++) {
 				String permission = permissions[i];
@@ -47,21 +50,30 @@ public class MainActivity extends Activity {
 
 				if (permission.equals(Manifest.permission.READ_SMS))  {
 					if (requestResult == PackageManager.PERMISSION_GRANTED) {
-						Toast.makeText(this, "Read sms granted", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(this, "Read sms granted", Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(this, "Need permission for sms read", Toast.LENGTH_SHORT).show();
+						finishAffinity();
 					}
 				} else if (permission.equals(Manifest.permission.SEND_SMS)) {
 					if (requestResult == PackageManager.PERMISSION_GRANTED) {
-						Toast.makeText(this, "Send sms granted", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(this, "Send sms granted", Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(this, "Need permission for sms send", Toast.LENGTH_SHORT).show();
+						finishAffinity();
 					}
 				} else if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 					if (requestResult == PackageManager.PERMISSION_GRANTED) {
-						Toast.makeText(this, "Read storage granted", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(this, "Read storage granted", Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(this, "Need permission for sms send", Toast.LENGTH_SHORT).show();
+						finishAffinity();
+					}
+				} else if (permission.equals(Manifest.permission.CALL_PHONE)) {
+					if (requestResult == PackageManager.PERMISSION_GRANTED) {
+//						Toast.makeText(this, "Call granted", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(this, "Need permission for call", Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
@@ -101,19 +113,29 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		contentContainer = findViewById(R.id.content_container);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			if	(
-					checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
-					checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||
-					checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
 
-				)
-			{
-				requestPermissions(new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-			} else {
-				finish();
-			}
+		if	(
+				checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
+				checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||
+				checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+				checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
+				checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
+
+			)
+		{
+			Log.d(TAG, "onCreate: CHECK PERMISSION");
+			requestPermissions(new String[] {
+				Manifest.permission.READ_SMS,
+				Manifest.permission.SEND_SMS,
+				Manifest.permission.READ_EXTERNAL_STORAGE,
+				Manifest.permission.CALL_PHONE,
+				Manifest.permission.RECEIVE_SMS
+			}, 1);
+		} else {
+//			finish();
+//			Toast.makeText(this, "Need permission for call", Toast.LENGTH_SHORT).show();
 		}
+
 
 		final View settingsButton = findViewById(R.id.settings_button); {
 			settingsButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) {

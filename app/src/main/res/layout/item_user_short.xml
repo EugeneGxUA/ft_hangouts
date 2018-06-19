@@ -13,6 +13,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginBottom="5dp"
+		android:layout_weight="1"
 		>
 
 		<ImageView
@@ -34,7 +35,6 @@
 				android:id="@+id/user_name"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textColor="#000"
 				android:layout_marginTop="10dp"
 				android:lines="1"
 				/>
@@ -44,7 +44,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="5dp"
-				android:textColor="#000"
 				android:lines="1"
 				/>
 		</LinearLayout>
@@ -53,7 +52,7 @@
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="2dp"
-		android:background="#f8f8f8"
+		android:background="#C5C5C5"
 		android:layout_marginLeft="20dp"
 		android:layout_marginRight="20dp"
 		/>

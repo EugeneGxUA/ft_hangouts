@@ -1,10 +1,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.example.d2_eugene.ft_hangouts">
 
-	<uses-permission android:name="android.permission.READ_SMS"/>
-	<uses-permission android:name="android.permission.WRITE_SMS"/>
-	<uses-permission android:name="android.permission.RECEIVE_SMS"/>
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<uses-permission
+		android:name="android.permission.READ_SMS"
+		/>
+
+	<uses-permission
+		android:name="android.permission.RECEIVE_SMS"
+		/>
+	<uses-permission
+		android:name="android.permission.WRITE_SMS"
+		/>
+	<uses-permission
+		android:name="android.permission.SEND_SMS"
+		/>
+
+
+	<uses-permission
+		android:name="android.permission.READ_EXTERNAL_STORAGE"
+		/>
+
+	<uses-permission
+		android:name="android.permission.CALL_PHONE"
+		/>
 
 	<application
 		android:name=".ThisApp"
@@ -16,7 +34,12 @@
 		android:theme="@style/Custom_dark"
 	>
 
-		<receiver android:name=".util.SmsBroadcastReceiver"/>
+		<receiver android:name=".util.SmsBroadcastReceiver"
+			>
+			<intent-filter>
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
+			</intent-filter>
+		</receiver>
 
 		<activity
 			android:name=".ui.activity.MainActivity"

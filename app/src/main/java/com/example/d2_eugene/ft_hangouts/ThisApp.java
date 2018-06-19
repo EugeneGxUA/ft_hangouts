@@ -26,18 +26,14 @@ import java.io.IOException;
 
 public class ThisApp extends Application{
 
-	private SmsBroadcastReceiver smsBroadcastReceiver;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		smsBroadcastReceiver = new SmsBroadcastReceiver("", "");
-		registerReceiver(smsBroadcastReceiver, new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION));
 	}
 
 	@Override
 	public void onTerminate() {
-		unregisterReceiver(smsBroadcastReceiver);
 		super.onTerminate();
 	}
 }

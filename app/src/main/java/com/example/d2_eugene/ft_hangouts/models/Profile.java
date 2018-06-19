@@ -172,6 +172,8 @@ public class Profile {
 
 		BufferedReader reader;
 
+		if (files == null || files.length == 0) return new Profile[]{};
+
 		Profile[] users = new Profile[files.length];
 		for (int i = 0; i < files.length; i++) {
 			File profile = files[i];
