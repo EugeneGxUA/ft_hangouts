@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.provider.Telephony;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +27,23 @@ import java.io.IOException;
 
 public class ThisApp extends Application{
 
+
+
+	public void onActivityPaused() {
+		final SharedPreferences sharedPreferences = getSharedPreferences("lastPausedTime", Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putLong("lastTime", System.currentTimeMillis());
+		editor.commit();
+	}
+
+	public long getLastActivityTime() {
+		final SharedPreferences sharedPreferences = getSharedPreferences("lastPausedTime", Context.MODE_PRIVATE);
+		return sharedPreferences.getLong("lastTime", 0);
+	}
+
+	public static ThisApp get(Context context) {
+		return (ThisApp) context.getApplicationContext();
+	}
 
 	@Override
 	public void onCreate() {

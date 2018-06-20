@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.StaleDataException;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class AddUserActivity extends Activity {
+public class AddUserActivity extends com.example.d2_eugene.ft_hangouts.ui.activity.Activity {
 
 	@Nullable private Profile profile;
 	private ImageView avatarImageView;
@@ -38,12 +39,13 @@ public class AddUserActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
+		if (resultCode == RESULT_OK && data != null) {
 			Uri imageUri = data.getData();
 			avatarImageView.setImageURI(imageUri);
 			imagePath = Profile.getRealPathFromURI(imageUri, AddUserActivity.this);
+
 		} else {
-			Toast.makeText(AddUserActivity.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+			Toast.makeText(AddUserActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -76,7 +78,7 @@ public class AddUserActivity extends Activity {
 				try {
 					avatarImageView.setImageBitmap(profile.getAvatarBitmap(this));
 				} catch (FileNotFoundException e) {
-					Toast.makeText(AddUserActivity.this, "NO PHOTO", Toast.LENGTH_SHORT).show();
+					Toast.makeText(AddUserActivity.this, "no picked photo", Toast.LENGTH_SHORT).show();
 				}
 			}
 

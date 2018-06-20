@@ -231,7 +231,7 @@ public class Profile {
 	public static String getRealPathFromURI(Uri contentURI, Activity context) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		@SuppressWarnings("deprecation")
-		Cursor cursor = context.managedQuery(contentURI, projection, null,
+		Cursor cursor = context.getContentResolver().query(contentURI, projection, null,
 			null, null);
 		if (cursor == null)
 			return null;

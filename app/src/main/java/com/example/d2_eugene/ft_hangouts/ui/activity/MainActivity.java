@@ -28,7 +28,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.Locale;
 
-public class MainActivity extends Activity {
+public class MainActivity extends com.example.d2_eugene.ft_hangouts.ui.activity.Activity {
 
 	private ViewGroup contentContainer;
 

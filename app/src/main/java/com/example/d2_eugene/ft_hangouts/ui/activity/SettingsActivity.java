@@ -18,10 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.d2_eugene.ft_hangouts.R;
+import com.example.d2_eugene.ft_hangouts.ThisApp;
 
 import java.util.Locale;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends com.example.d2_eugene.ft_hangouts.ui.activity.Activity {
 
 	boolean languageExpand = false;
 	boolean colorExpand = false;

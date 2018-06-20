@@ -44,7 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class ChatActivity extends Activity {
+public class ChatActivity extends com.example.d2_eugene.ft_hangouts.ui.activity.Activity {
 
 	private Profile profile;
 	private int id;
